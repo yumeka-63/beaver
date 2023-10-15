@@ -1,0 +1,50 @@
+<h1>マイページ</h1>
+<%= image_tag @user.image_url, size: "250x200" if @user.image? %>
+
+<p>名前 : <%= @user.name %></p>
+<br>
+<p>メールアドレス : <%= @user.email %></p>
+<br>
+<p>プロフィール : <%= @user.profile %></p>
+<br>
+<br>
+
+<% if current_user.id == @user.id %>
+  <%= link_to "編集する", edit_user_registration_path %>
+<% end %>
+
+<br>
+<br>
+
+<h2>ユーザーの投稿一覧</h2>
+<% @user.posts.each do |t| %>
+  <%= t.user.name %>
+  <%= t.body %>
+<% end %>
+<br>
+<br>
+
+<h2>ユーザーがいいねした投稿一覧</h2>
+<% @user.liked_posts.each do |t| %>
+  <%= t.user.name %>
+  <%= t.body %>
+<% end %>
+<!-- ここまで-->
+
+<% if @user.id == current_user.id %>
+    <%= @msg %>
+<% else %>
+    <% if @isRoom == true %>
+        <p><%= link_to 'DMへ', room_path(@roomId) %></p>
+    <% else %>
+        <%= form_for @room do |f| %>
+            <%= fields_for @entry do |e|%>
+                <% e.hidden_field :user_id, value: @user.id %>
+            <% end %>
+        <%= f.submit "DMを開始する"%>
+        <% end %>
+    <% end %>
+<% end %>
+
+<%= link_to "post一覧に戻る", posts_path %>
+<%= link_to "ユーザー一覧に戻る", users_path %>

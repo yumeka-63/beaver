@@ -1,0 +1,50 @@
+<h1>みんなの投稿</h1>
+<br>
+
+
+
+<div class="posts-container">
+
+<% if user_signed_in? %>
+  <%= link_to "マイページへ", user_path(current_user.id) %>
+<% end %>
+
+
+
+  <% @posts.each do |t| %>
+    <div class="post">
+
+      <%= image_tag t.image_url, size: "250x200" if t.image? %>
+      <%= t.body %>
+      <%= t.user.email %> 
+
+      <% if user_signed_in? %>
+      <% if current_user.already_liked?(t) %>
+          <%= button_to post_like_path(id: t.id, post_id: t.id), method: :delete do %>
+            <i class="fa-regular fa-heart"></i><%= t.likes.count %>
+          <% end %>
+      <% else %>
+          <%= button_to post_likes_path(id: t.id, post_id: t.id), method: :post do %>
+            <i class="fa-regular fa-heart"></i><%= t.likes.count %>
+          <% end %>
+      <% end %>
+
+      <% else %>
+       <p>いいねの数 = </p><%= t.likes.count %>
+      <% end %>
+
+      <%= image_tag t.user.image_url, size: "250x200" if t.user.image? %>
+      
+    </div>
+
+    
+    <%= link_to "編集する", edit_post_path(t.id) %>
+    <%= link_to "詳細へ", post_path(t.id) %>
+    <%= button_to "削除する", post_path(t.id), method: :delete %>
+    <br>
+    <br>
+  <% end %>
+</div>
+<%= link_to "新規投稿へ", new_post_path %>
+
+<%= button_to 'ログアウト', destroy_user_session_path, method: :delete %>

@@ -1,0 +1,23 @@
+// Place all the styles related to the tops controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+
+.picture{
+overflow: hidden;
+}
+.a{
+  width: 100%;
+  height: 800px;
+  object-fit: cover;
+  object-position: 0% 0%;
+}
+
+.about-beaver{
+  height:500px;
+  text-align:center;
+  position:relative;
+  font-size:20px;
+}
+
+
